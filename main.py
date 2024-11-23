@@ -43,6 +43,7 @@ def videodownloader(link, app):
             'outtmpl': os.path.join(download_folder, '%(title)s.%(ext)s'),
             'noplaylist': True,
             'extract_audio': not is_video,
+            'nocheckcertificate': True,
         }
 
         try:
