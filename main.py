@@ -38,13 +38,23 @@ def videodownloader(link, app):
     def download_thread():
         """Download video in a separate thread."""
         app.start_loading()  # Start loading animation
-        options = {
-            'format': 'mp4' if is_video else 'bestaudio',
-            'outtmpl': os.path.join(download_folder, '%(title)s.%(ext)s'),
-            'noplaylist': True,
-            'extract_audio': not is_video,
-            'nocheckcertificate': True,
-        }
+
+        if is_video:
+            options = {
+                'format': 'bestvideo[ext=mp4][height>=1080]+bestaudio[ext=m4a]/best[ext=mp4]/best',
+                'outtmpl': os.path.join(download_folder, '%(title)s.mp4'),
+                'noplaylist': True,
+                'nocheckcertificate': True
+            }
+        else:
+            options = {
+                'format': 'bestaudio',
+                'outtmpl': os.path.join(download_folder, '%(title)s.mp3'),
+                'noplaylist': True,
+                'nocheckcertificate': True,
+                'extract_audio': True,
+                'audio_quality': '192K'
+            }
 
         try:
             with YoutubeDL(options) as ydl:
